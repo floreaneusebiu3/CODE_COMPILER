@@ -1617,6 +1617,7 @@ yyreturnlab:
 data_ execute(nodeType *node) {
   data_ data;
   data_ aux;
+  data_ aux2;
   data.intValue = INT_MAX;
   data.floatValue = INT_MAX;
   if (!node) 
@@ -1647,21 +1648,35 @@ data_ execute(nodeType *node) {
                       return data;
                     
     case typeOpr : switch(node->opr.oper) 
-                  {
-                      case '='   :    saveValueInMemory(node); return data;
+                  {   case WHILE  :   if(node->opr.op[0]->opr.oper == '<' || node->opr.op[0]->opr.oper == '>' || 
+                                         node->opr.op[0]->opr.oper == EQ  || node->opr.op[0]->opr.oper == NE ||
+                                         node->opr.op[0]->opr.oper == GE  || node->opr.op[0]->opr.oper == LE ) {
+                                          while (execute(node->opr.op[0]).intValue) {
+                                            execute(node->opr.op[1]);
+                                          }
+                                         } 
+                                         return data;
+                      case '='    :   saveValueInMemory(node); return data;
                       case TYPEE  :   memory[node->opr.op[1]->id.i].type = (char*)malloc(10 * sizeof(char));
                                       memory[node->opr.op[1]->id.i].type = getString(node->opr.op[0]);
                                       return data;
-                      case PRINT :     aux = execute(node->opr.op[0]); 
-                                      if (aux.intValue != INT_MAX) 
+                      case PRINT :    aux = execute(node->opr.op[0]); 
+                                      if (aux.intValue != INT_MAX)  {
                                           printf("%d\n", execute(node->opr.op[0]).intValue); 
                                           return data;
-                                      if (aux.floatValue != INT_MAX) 
+                                      }
+                                      if (aux.floatValue != INT_MAX) {
                                           printf("%f\n", execute(node->opr.op[0]).floatValue); 
                                           return data;
-                                      if (aux.stringValue != NULL) 
+                                      }
+                                      if (aux.stringValue != NULL) {
                                           printf("%s\n", execute(node->opr.op[0]).stringValue); 
                                           return data;
+                                      }
+                                      return data;
+                                          
+                      case ';':       execute(node->opr.op[0]); 
+		                                      return execute(node->opr.op[1]); 
                       case '+'   :     aux = execute(node->opr.op[0]);
                                       if (aux.intValue != INT_MAX) 
                                         data.intValue = execute(node->opr.op[0]).intValue + execute(node->opr.op[1]).intValue;
@@ -1686,6 +1701,48 @@ data_ execute(nodeType *node) {
                                       if (aux.floatValue != INT_MAX) 
                                         data.floatValue = execute(node->opr.op[0]).floatValue / execute(node->opr.op[1]).floatValue;
                                       return data;
+                      case '<'   :    aux = execute(node->opr.op[0]);
+                                      aux2 = execute(node->opr.op[1]);
+                                      if (aux.intValue != INT_MAX && aux2.intValue != INT_MAX) 
+                                        data.intValue = aux.intValue < aux2.intValue;
+                                      if (aux.floatValue != INT_MAX  && aux2.floatValue != INT_MAX) 
+                                        data.intValue = aux.floatValue < aux2.floatValue;
+                                      return data;
+		                  case '>':       aux = execute(node->opr.op[0]);
+                                      aux2 = execute(node->opr.op[1]);
+                                      if (aux.intValue != INT_MAX && aux2.intValue != INT_MAX) 
+                                        data.intValue = aux.intValue > aux2.intValue;
+                                      if (aux.floatValue != INT_MAX  && aux2.floatValue != INT_MAX) 
+                                        data.intValue = aux.floatValue > aux2.floatValue;
+                                      return data;
+		                  case GE:        aux = execute(node->opr.op[0]);
+                                      aux2 = execute(node->opr.op[1]);
+                                      if (aux.intValue != INT_MAX && aux2.intValue != INT_MAX) 
+                                        data.intValue = aux.intValue >= aux2.intValue;
+                                      if (aux.floatValue != INT_MAX  && aux2.floatValue != INT_MAX) 
+                                        data.intValue = aux.floatValue >= aux2.floatValue;
+                                      return data; 
+		                  case LE:        aux = execute(node->opr.op[0]);
+                                      aux2 = execute(node->opr.op[1]);
+                                      if (aux.intValue != INT_MAX && aux2.intValue != INT_MAX) 
+                                        data.intValue = aux.intValue <= aux2.intValue;
+                                      if (aux.floatValue != INT_MAX  && aux2.floatValue != INT_MAX) 
+                                        data.intValue = aux.floatValue <= aux2.floatValue;
+                                      return data; 
+		                  case NE:        aux = execute(node->opr.op[0]);
+                                      aux2 = execute(node->opr.op[1]);
+                                      if (aux.intValue != INT_MAX && aux2.intValue != INT_MAX) 
+                                        data.intValue = aux.intValue != aux2.intValue;
+                                      if (aux.floatValue != INT_MAX  && aux2.floatValue != INT_MAX) 
+                                        data.intValue = aux.floatValue != aux2.floatValue;
+                                      return data;
+		                  case EQ:        aux = execute(node->opr.op[0]);
+                                      aux2 = execute(node->opr.op[1]);
+                                      if (aux.intValue != INT_MAX && aux2.intValue != INT_MAX) 
+                                        data.intValue = aux.intValue == aux2.intValue;
+                                      if (aux.floatValue != INT_MAX  && aux2.floatValue != INT_MAX) 
+                                        data.intValue = aux.floatValue == aux2.floatValue;
+                                      return data;
                   }
   }
   }
@@ -1697,15 +1754,14 @@ char *getString(nodeType *node) {
 }
 
 void saveValueInMemory(nodeType * node) {
+  if(memory[node->opr.op[0]->id.i].value == NULL)
   memory[node->opr.op[0]->id.i].value = (char*)malloc(100 * sizeof(char));
   if (strcmp(memory[node->opr.op[0]->id.i].type, "int") == 0) 
         sprintf(memory[node->opr.op[0]->id.i].value, "%d", execute(node->opr.op[1]).intValue); 
   if (strcmp(memory[node->opr.op[0]->id.i].type, "float") == 0) 
         sprintf(memory[node->opr.op[0]->id.i].value, "%f", execute(node->opr.op[1]).floatValue);      
-  if (strcmp(memory[node->opr.op[0]->id.i].type, "string") == 0) {
-                sprintf(memory[node->opr.op[0]->id.i].value, "%s", execute(node->opr.op[1]).stringValue);    
-                printf("%s", memory[node->opr.op[0]->id.i].value);
-  }
+  if (strcmp(memory[node->opr.op[0]->id.i].type, "string") == 0) 
+        sprintf(memory[node->opr.op[0]->id.i].value, "%s", execute(node->opr.op[1]).stringValue);    
 }
 
 void freeNode(nodeType *p) 

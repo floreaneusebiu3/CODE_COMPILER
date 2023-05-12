@@ -1,0 +1,8 @@
+float a;
+a = 1.2;
+print(a);
+while ( a < 5.5) {
+print(a);
+a = a+1.0;
+}
+.
