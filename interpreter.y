@@ -8,7 +8,8 @@
 #include "types.h"
 
 memory_type memory[26]; /* symbol table */
-
+void yyerror(const char* s);
+extern char* yytext;
 %}
 
 %union {
@@ -24,7 +25,7 @@ memory_type memory[26]; /* symbol table */
 %token <fValue> FLOAT 
 %token <typee> TYPEE
 %token <iValue> VARIABLE
-%token WHILE IF PRINT
+%token WHILE IF PRINT REPEAT UNTIL FOR
 %nonassoc IFX
 %nonassoc ELSE
 
@@ -54,6 +55,8 @@ statement : ';'                                        { $$ = opr(';', 2, NULL, 
           | VARIABLE '=' expr ';'                      { $$ = opr('=', 2, id($1), $3); }
           | TYPEE VARIABLE ';'                         { $$ = opr(TYPEE, 2, text($1), id($2)); }  
           | WHILE '(' expr ')' statement               { $$ = opr(WHILE, 2, $3, $5); }
+          | REPEAT statement UNTIL '(' expr ')' ';'    { $$ = opr(REPEAT, 2, $2, $5); }
+          | FOR statement expr ';' statement '{' stmt_list '}'   { $$ = opr(FOR, 4, $2, $3, $5, $7); }
           | IF '(' expr ')' statement %prec IFX        { $$ = opr(IF, 2, $3, $5); }
           | IF '(' expr ')' statement ELSE statement   { $$ = opr(IF, 3, $3, $5, $7); }
           | '{' stmt_list '}'                          { $$ = $2; }
@@ -124,6 +127,34 @@ data_ execute(nodeType *node) {
                                           }
                                          } 
                                          return data;
+                      case REPEAT :     if(node->opr.op[1]->opr.oper == '<' || node->opr.op[1]->opr.oper == '>' || 
+                                         node->opr.op[1]->opr.oper == EQ  || node->opr.op[1]->opr.oper == NE ||
+                                         node->opr.op[1]->opr.oper == GE  || node->opr.op[1]->opr.oper == LE ) {
+                                          do {
+                                            execute(node->opr.op[0]);
+                                          } while (execute(node->opr.op[1]).intValue);
+                                         } 
+                                         return data;
+                                          
+                      case IF    :       if(node->opr.op[0]->opr.oper == '<' || node->opr.op[0]->opr.oper == '>' || 
+                                         node->opr.op[0]->opr.oper == EQ  || node->opr.op[0]->opr.oper == NE ||
+                                         node->opr.op[0]->opr.oper == GE  || node->opr.op[0]->opr.oper == LE ) {
+                                           if (execute(node->opr.op[0]).intValue) 
+                                                execute(node->opr.op[1]);
+                                            else if (node->opr.nops > 2) 
+                                                execute(node->opr.op[2]);
+                                         } 
+                                         return data; 
+                      case FOR  :        if(node->opr.op[1]->opr.oper == '<' || node->opr.op[1]->opr.oper == '>' || 
+                                         node->opr.op[1]->opr.oper == EQ  || node->opr.op[1]->opr.oper == NE ||
+                                         node->opr.op[1]->opr.oper == GE  || node->opr.op[1]->opr.oper == LE ) {
+                                           execute(node->opr.op[0]).intValue;
+                                           while (execute(node->opr.op[1]).intValue) {
+                                            execute(node->opr.op[3]);
+                                            execute(node->opr.op[2]);
+                                          }
+                                         } 
+                                         return data; 
                       case '='    :   saveValueInMemory(node); return data;
                       case TYPEE  :   memory[node->opr.op[1]->id.i].type = (char*)malloc(10 * sizeof(char));
                                       memory[node->opr.op[1]->id.i].type = getString(node->opr.op[0]);
@@ -323,6 +354,10 @@ nodeType *opr(int oper, int nops, ...)
     p->opr.op[i] = va_arg(ap, nodeType*); 
   va_end(ap); 
   return p; 
+}
+
+void yyerror(const char* s) {
+    fprintf(stderr, "Error: %s, input: %s\n", s, yytext);
 }
 
 int main(void) 

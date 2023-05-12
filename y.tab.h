@@ -62,13 +62,16 @@ extern int yydebug;
     WHILE = 263,                   /* WHILE  */
     IF = 264,                      /* IF  */
     PRINT = 265,                   /* PRINT  */
-    IFX = 266,                     /* IFX  */
-    ELSE = 267,                    /* ELSE  */
-    GE = 268,                      /* GE  */
-    LE = 269,                      /* LE  */
-    EQ = 270,                      /* EQ  */
-    NE = 271,                      /* NE  */
-    UMINUS = 272                   /* UMINUS  */
+    REPEAT = 266,                  /* REPEAT  */
+    UNTIL = 267,                   /* UNTIL  */
+    FOR = 268,                     /* FOR  */
+    IFX = 269,                     /* IFX  */
+    ELSE = 270,                    /* ELSE  */
+    GE = 271,                      /* GE  */
+    LE = 272,                      /* LE  */
+    EQ = 273,                      /* EQ  */
+    NE = 274,                      /* NE  */
+    UMINUS = 275                   /* UMINUS  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -85,19 +88,22 @@ extern int yydebug;
 #define WHILE 263
 #define IF 264
 #define PRINT 265
-#define IFX 266
-#define ELSE 267
-#define GE 268
-#define LE 269
-#define EQ 270
-#define NE 271
-#define UMINUS 272
+#define REPEAT 266
+#define UNTIL 267
+#define FOR 268
+#define IFX 269
+#define ELSE 270
+#define GE 271
+#define LE 272
+#define EQ 273
+#define NE 274
+#define UMINUS 275
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 14 "interpreter.y"
+#line 15 "interpreter.y"
 
   int iValue;      /* integer value */
   float fValue;
@@ -105,7 +111,7 @@ union YYSTYPE
   char *typee;
   nodeType *nPtr;  /* node pointer */
 
-#line 109 "y.tab.h"
+#line 115 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

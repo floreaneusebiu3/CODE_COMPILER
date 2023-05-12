@@ -1,0 +1,13 @@
+int a;
+int b;
+int c;
+a = 2;
+if (a > 5) 
+    b = 2;
+ else {
+    b = 3;
+    c = 3;
+}
+print(b);
+print(c);
+.

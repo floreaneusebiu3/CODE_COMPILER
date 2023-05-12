@@ -44,6 +44,9 @@
 "if"            return IF;
 "else"          return ELSE;
 "print"         return PRINT;
+"repeat"        return REPEAT;
+"until"         return UNTIL;
+"for"           return FOR;
 
 "int"           {
                   //printf("lex: %s\n", yytext);
