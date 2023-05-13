@@ -25,7 +25,7 @@ extern char* yytext;
 %token <fValue> FLOAT 
 %token <typee> TYPEE
 %token <iValue> VARIABLE
-%token WHILE IF PRINT REPEAT UNTIL FOR
+%token WHILE IF PRINT REPEAT UNTIL FOR SWITCH CASE END_SWITCH DEFAULT
 %nonassoc IFX
 %nonassoc ELSE
 
@@ -34,55 +34,62 @@ extern char* yytext;
 %left '*' '/'
 %nonassoc UMINUS
 
-%type <nPtr> statement expr stmt_list
+%type <nPtr> statement expr stmt_list case_stmt case_list default_stmt
 
 %start      program
 
 %%
-program   : function '.'                              { exit(0); }
+program   : function '.'                                         { exit(0); }
           ;
 
-function  : function statement                        {                   
-                                                      execute($2); 
-                                                      freeNode($2); 
-                                                      }
+function  : function statement                                   {                   
+                                                                   execute($2); 
+                                                                   freeNode($2); 
+                                                                 }
           | /* NULL */
           ;
  
-statement : ';'                                        { $$ = opr(';', 2, NULL, NULL); }
-          | expr ';'                                   { $$ = $1; }
-          | PRINT expr ';'                             { $$ = opr(PRINT, 1, $2); }
-          | VARIABLE '=' expr ';'                      { $$ = opr('=', 2, id($1), $3); }
-          | TYPEE VARIABLE ';'                         { $$ = opr(TYPEE, 2, text($1), id($2)); }  
-          | WHILE '(' expr ')' statement               { $$ = opr(WHILE, 2, $3, $5); }
-          | REPEAT statement UNTIL '(' expr ')' ';'    { $$ = opr(REPEAT, 2, $2, $5); }
+statement : ';'                                                  { $$ = opr(';', 2, NULL, NULL); }
+          | expr ';'                                             { $$ = $1; }
+          | PRINT expr ';'                                       { $$ = opr(PRINT, 1, $2); }
+          | VARIABLE '=' expr ';'                                { $$ = opr('=', 2, id($1), $3); }
+          | TYPEE VARIABLE ';'                                   { $$ = opr(TYPEE, 2, text($1), id($2)); }  
+          | WHILE '(' expr ')' statement                         { $$ = opr(WHILE, 2, $3, $5); }
+          | REPEAT statement UNTIL '(' expr ')' ';'              { $$ = opr(REPEAT, 2, $2, $5); }
           | FOR statement expr ';' statement '{' stmt_list '}'   { $$ = opr(FOR, 4, $2, $3, $5, $7); }
-          | IF '(' expr ')' statement %prec IFX        { $$ = opr(IF, 2, $3, $5); }
-          | IF '(' expr ')' statement ELSE statement   { $$ = opr(IF, 3, $3, $5, $7); }
-          | '{' stmt_list '}'                          { $$ = $2; }
+          | SWITCH '(' VARIABLE ')' case_stmt case_stmt default_stmt  END_SWITCH                               
+                                                                 { $$ = opr(SWITCH, 4, id($3), $5, $6, $7); } 
+          | IF '(' expr ')' statement %prec IFX                  { $$ = opr(IF, 2, $3, $5); }
+          | IF '(' expr ')' statement ELSE statement             { $$ = opr(IF, 3, $3, $5, $7); }
+          | '{' stmt_list '}'                                    { $$ = $2; }
           ;
 
 stmt_list : statement
-          | stmt_list statement                        { $$ = opr(';', 2, $1, $2); }
+          | stmt_list statement                                  { $$ = opr(';', 2, $1, $2); }
           ;
 
-expr      : INTEGER                                    { $$ = con($1); }
-          | FLOAT                                      { $$ = conF($1); } 
-          | STRING                                     { $$ = conS($1); }
-          | VARIABLE                                   { $$ = id($1); }
-          | TYPEE                                      { $$ = text($1);}
-          | '-' expr %prec UMINUS                      { $$ = opr(UMINUS, 1, $2); }
-          | expr '+' expr                              { $$ = opr('+', 2, $1, $3); }
-          | expr '-' expr                              { $$ = opr('-', 2, $1, $3); }
-          | expr '*' expr                              { $$ = opr('*', 2, $1, $3); }
-          | expr '/' expr                              { $$ = opr('/', 2, $1, $3); }
-          | expr '<' expr                              { $$ = opr('<', 2, $1, $3); }
-          | expr '>' expr                              { $$ = opr('>', 2, $1, $3); }
-          | expr GE expr                               { $$ = opr(GE, 2, $1, $3); }
-          | expr LE expr                               { $$ = opr(LE, 2, $1, $3); }
-          | expr NE expr                               { $$ = opr(NE, 2, $1, $3); }
-          | expr EQ expr                               { $$ = opr(EQ, 2, $1, $3); }
-          | '(' expr ')'                               { $$ = $2; }
+case_stmt: CASE INTEGER ':' stmt_list                            { $$ = opr(CASE, 2, con($2), $4); }
+          ;
+
+default_stmt: DEFAULT ':' stmt_list                                { $$ = opr(DEFAULT, 1, $3); }
+          ;
+expr      : INTEGER                                              { $$ = con($1); }
+          | FLOAT                                                { $$ = conF($1); } 
+          | STRING                                               { $$ = conS($1); }
+          | VARIABLE                                             { $$ = id($1); }
+          | TYPEE                                                { $$ = text($1);}
+          | '-' expr %prec UMINUS                                { $$ = opr(UMINUS, 1, $2); }
+          | expr '+' expr                                        { $$ = opr('+', 2, $1, $3); }
+          | expr '-' expr                                        { $$ = opr('-', 2, $1, $3); }
+          | expr '*' expr                                        { $$ = opr('*', 2, $1, $3); }
+          | expr '/' expr                                        { $$ = opr('/', 2, $1, $3); }
+          | expr '<' expr                                        { $$ = opr('<', 2, $1, $3); }
+          | expr '>' expr                                        { $$ = opr('>', 2, $1, $3); }
+          | expr GE expr                                         { $$ = opr(GE, 2, $1, $3); }
+          | expr LE expr                                         { $$ = opr(LE, 2, $1, $3); }
+          | expr NE expr                                         { $$ = opr(NE, 2, $1, $3); }
+          | expr EQ expr                                         { $$ = opr(EQ, 2, $1, $3); }
+          | '(' expr ')'                                         { $$ = $2; }
           ;
 %%
 data_ execute(nodeType *node) {
@@ -155,6 +162,19 @@ data_ execute(nodeType *node) {
                                           }
                                          } 
                                          return data; 
+                      case SWITCH :    
+                                      if(strcmp(memory[node->opr.op[0]->id.i].type, "int") == 0) {
+                                           if (execute(node->opr.op[0]).intValue == execute(node->opr.op[1]->opr.op[0]).intValue) {
+                                                execute(node->opr.op[1]->opr.op[1]);
+                                                return data;
+                                           }
+                                           if (execute(node->opr.op[0]).intValue == execute(node->opr.op[2]->opr.op[0]).intValue) {
+                                                execute(node->opr.op[2]->opr.op[1]);
+                                                return data;
+                                           }
+                                           execute(node->opr.op[3]->opr.op[0]);
+                                        }  
+                                       return data;
                       case '='    :   saveValueInMemory(node); return data;
                       case TYPEE  :   memory[node->opr.op[1]->id.i].type = (char*)malloc(10 * sizeof(char));
                                       memory[node->opr.op[1]->id.i].type = getString(node->opr.op[0]);

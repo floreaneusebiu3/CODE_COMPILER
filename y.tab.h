@@ -65,13 +65,17 @@ extern int yydebug;
     REPEAT = 266,                  /* REPEAT  */
     UNTIL = 267,                   /* UNTIL  */
     FOR = 268,                     /* FOR  */
-    IFX = 269,                     /* IFX  */
-    ELSE = 270,                    /* ELSE  */
-    GE = 271,                      /* GE  */
-    LE = 272,                      /* LE  */
-    EQ = 273,                      /* EQ  */
-    NE = 274,                      /* NE  */
-    UMINUS = 275                   /* UMINUS  */
+    SWITCH = 269,                  /* SWITCH  */
+    CASE = 270,                    /* CASE  */
+    END_SWITCH = 271,              /* END_SWITCH  */
+    DEFAULT = 272,                 /* DEFAULT  */
+    IFX = 273,                     /* IFX  */
+    ELSE = 274,                    /* ELSE  */
+    GE = 275,                      /* GE  */
+    LE = 276,                      /* LE  */
+    EQ = 277,                      /* EQ  */
+    NE = 278,                      /* NE  */
+    UMINUS = 279                   /* UMINUS  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -91,13 +95,17 @@ extern int yydebug;
 #define REPEAT 266
 #define UNTIL 267
 #define FOR 268
-#define IFX 269
-#define ELSE 270
-#define GE 271
-#define LE 272
-#define EQ 273
-#define NE 274
-#define UMINUS 275
+#define SWITCH 269
+#define CASE 270
+#define END_SWITCH 271
+#define DEFAULT 272
+#define IFX 273
+#define ELSE 274
+#define GE 275
+#define LE 276
+#define EQ 277
+#define NE 278
+#define UMINUS 279
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -111,7 +119,7 @@ union YYSTYPE
   char *typee;
   nodeType *nPtr;  /* node pointer */
 
-#line 115 "y.tab.h"
+#line 123 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

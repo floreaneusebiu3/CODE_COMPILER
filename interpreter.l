@@ -47,6 +47,10 @@
 "repeat"        return REPEAT;
 "until"         return UNTIL;
 "for"           return FOR;
+"switch"        return SWITCH;
+"case"          return CASE;
+"endSwitch"    return END_SWITCH;
+"default"      return DEFAULT;
 
 "int"           {
                   //printf("lex: %s\n", yytext);
