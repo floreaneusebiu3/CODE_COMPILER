@@ -2095,8 +2095,6 @@ void playRound(int table[3][3], int* round, int x, int y){
         playerChar = 'X';
         playerVal = 2;
     }
-
-    //printf("\n%c's round: \n", playerChar);
     if (table[x-1][y-1] == 0 && x >= 1 && x <=3 && y >= 1 && y <=3){
         (*round) ++;
         table[x-1][y-1] = playerVal;

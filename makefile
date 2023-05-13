@@ -1,7 +1,7 @@
 all:
 	lex interpreter.l
 	yacc -d interpreter.y
-	gcc -o a.out lex.yy.c y.tab.c -ly -ll
+	gcc -o program.out lex.yy.c y.tab.c -ly -ll
 
 clean:
 	rm a.out

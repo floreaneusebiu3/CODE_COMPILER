@@ -62,7 +62,6 @@ data_ execute(nodeType *node);
 void freeNode(nodeType *p);
 void saveValueInMemory(nodeType * node);
 char *getString(nodeType *node);
-void playTicTacToe();
 void playRound(int table[3][3], int* round, int x, int y);
 void printTable(int table[3][3]);
 bool isWin(int t[3][3]);

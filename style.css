@@ -1,0 +1,81 @@
+body {
+  height: 100vh;
+  margin: 0;
+  font-family: 'Ubuntu Mono', monospace;
+  background-color: #394867;
+}
+
+h1 {
+  color: #2b8132;
+  font-size: 40px;
+  font-weight: 600;
+  font-family: 'Roboto', sans-serif;
+  color: #2b8132;
+  text-transform: uppercase;
+  text-shadow: 1px 1px 0px #2b8132,
+               1px 2px 0px #2b8132,
+               1px 3px 0px #2b8132,
+               1px 4px 0px #2b8132,
+               1px 5px 0px #2b8132,
+               1px 6px 0px #2b8132,
+               1px 10px 5px rgba(16, 16, 16, 0.5),
+               1px 15px 10px rgba(16, 16, 16, 0.4),
+               1px 20px 30px rgba(16, 16, 16, 0.3),
+               1px 25px 50px rgba(16, 16, 16, 0.2);
+}
+
+.exterior-top-container {
+  height: 60%;
+}
+
+.exterior-bottom-container {
+  height: 35%;
+}
+
+.interior-title-container {
+  height: 10%;
+  text-align: center;
+}
+
+.interior-container{
+  height: 80%;
+  text-align: center;
+}
+
+.compiler {
+  background-color: #212A3E;
+  height: 100%;
+  width: 80%;
+  font-size: 20px;
+  overflow: auto;
+  color: #2b8132;
+  border-radius: 10px;
+}
+
+.console {
+  background-color: #212A3E;
+  height: 80%;
+  width: 80%;
+  font-size: 20px;
+  overflow: auto;
+  color: #a45ee9;
+  border-radius: 10px;
+}
+
+.button-container{
+  text-align: center;
+}
+
+.button {
+  background-color: transparent;
+  border: none;
+  height: 70px;
+  width: 70px;
+  border-radius: 50%;
+  color: #2b8132;
+  font-size: 60px;
+}
+
+.button:hover{
+  background-color: #212A3E;
+}
