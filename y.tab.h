@@ -59,23 +59,25 @@ extern int yydebug;
     FLOAT = 260,                   /* FLOAT  */
     TYPEE = 261,                   /* TYPEE  */
     VARIABLE = 262,                /* VARIABLE  */
-    WHILE = 263,                   /* WHILE  */
-    IF = 264,                      /* IF  */
-    PRINT = 265,                   /* PRINT  */
-    REPEAT = 266,                  /* REPEAT  */
-    UNTIL = 267,                   /* UNTIL  */
-    FOR = 268,                     /* FOR  */
-    SWITCH = 269,                  /* SWITCH  */
-    CASE = 270,                    /* CASE  */
-    END_SWITCH = 271,              /* END_SWITCH  */
-    DEFAULT = 272,                 /* DEFAULT  */
-    IFX = 273,                     /* IFX  */
-    ELSE = 274,                    /* ELSE  */
-    GE = 275,                      /* GE  */
-    LE = 276,                      /* LE  */
-    EQ = 277,                      /* EQ  */
-    NE = 278,                      /* NE  */
-    UMINUS = 279                   /* UMINUS  */
+    PUT = 263,                     /* PUT  */
+    WHILE = 264,                   /* WHILE  */
+    IF = 265,                      /* IF  */
+    PRINT = 266,                   /* PRINT  */
+    REPEAT = 267,                  /* REPEAT  */
+    UNTIL = 268,                   /* UNTIL  */
+    FOR = 269,                     /* FOR  */
+    SWITCH = 270,                  /* SWITCH  */
+    CASE = 271,                    /* CASE  */
+    END_SWITCH = 272,              /* END_SWITCH  */
+    DEFAULT = 273,                 /* DEFAULT  */
+    START = 274,                   /* START  */
+    IFX = 275,                     /* IFX  */
+    ELSE = 276,                    /* ELSE  */
+    GE = 277,                      /* GE  */
+    LE = 278,                      /* LE  */
+    EQ = 279,                      /* EQ  */
+    NE = 280,                      /* NE  */
+    UMINUS = 281                   /* UMINUS  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -89,37 +91,40 @@ extern int yydebug;
 #define FLOAT 260
 #define TYPEE 261
 #define VARIABLE 262
-#define WHILE 263
-#define IF 264
-#define PRINT 265
-#define REPEAT 266
-#define UNTIL 267
-#define FOR 268
-#define SWITCH 269
-#define CASE 270
-#define END_SWITCH 271
-#define DEFAULT 272
-#define IFX 273
-#define ELSE 274
-#define GE 275
-#define LE 276
-#define EQ 277
-#define NE 278
-#define UMINUS 279
+#define PUT 263
+#define WHILE 264
+#define IF 265
+#define PRINT 266
+#define REPEAT 267
+#define UNTIL 268
+#define FOR 269
+#define SWITCH 270
+#define CASE 271
+#define END_SWITCH 272
+#define DEFAULT 273
+#define START 274
+#define IFX 275
+#define ELSE 276
+#define GE 277
+#define LE 278
+#define EQ 279
+#define NE 280
+#define UMINUS 281
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 15 "interpreter.y"
+#line 18 "interpreter.y"
 
+  tic ticValue;
   int iValue;      /* integer value */
   float fValue;
   char* sValue;
   char *typee;
   nodeType *nPtr;  /* node pointer */
 
-#line 123 "y.tab.h"
+#line 128 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

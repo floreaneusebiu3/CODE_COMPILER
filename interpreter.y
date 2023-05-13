@@ -5,14 +5,18 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
+#include<stdbool.h>
 #include "types.h"
 
 memory_type memory[26]; /* symbol table */
 void yyerror(const char* s);
 extern char* yytext;
+int table[3][3];
+int round;
 %}
 
 %union {
+  tic ticValue;
   int iValue;      /* integer value */
   float fValue;
   char* sValue;
@@ -25,7 +29,8 @@ extern char* yytext;
 %token <fValue> FLOAT 
 %token <typee> TYPEE
 %token <iValue> VARIABLE
-%token WHILE IF PRINT REPEAT UNTIL FOR SWITCH CASE END_SWITCH DEFAULT
+%token <ticValue> PUT
+%token WHILE IF PRINT REPEAT UNTIL FOR SWITCH CASE END_SWITCH DEFAULT START
 %nonassoc IFX
 %nonassoc ELSE
 
@@ -34,7 +39,7 @@ extern char* yytext;
 %left '*' '/'
 %nonassoc UMINUS
 
-%type <nPtr> statement expr stmt_list case_stmt case_list default_stmt
+%type <nPtr> statement expr stmt_list case_stmt default_stmt
 
 %start      program
 
@@ -51,6 +56,10 @@ function  : function statement                                   {
  
 statement : ';'                                                  { $$ = opr(';', 2, NULL, NULL); }
           | expr ';'                                             { $$ = $1; }
+          | START                                                { $$ = opr(START, 0);}
+          | PUT                                                  {   
+                                                                    $$ = opr(PUT, 2, con(($1).x), con(($1).y));
+                                                                 }
           | PRINT expr ';'                                       { $$ = opr(PRINT, 1, $2); }
           | VARIABLE '=' expr ';'                                { $$ = opr('=', 2, id($1), $3); }
           | TYPEE VARIABLE ';'                                   { $$ = opr(TYPEE, 2, text($1), id($2)); }  
@@ -126,7 +135,29 @@ data_ execute(nodeType *node) {
                       return data;
                     
     case typeOpr : switch(node->opr.oper) 
-                  {   case WHILE  :   if(node->opr.op[0]->opr.oper == '<' || node->opr.op[0]->opr.oper == '>' || 
+                  { case START  :    for (int i = 0; i < 3; i++) 
+                                     for (int j = 0; j < 3; j++) 
+                                        table[i][j] = 0;
+                                     round = 0;
+                                     printTable(table);
+                                     if (round % 2 == 0) 
+                                        printf("\nO's round\n");
+                                     else 
+                                        printf("\nX's round\n");
+
+                                     return data;
+                    case PUT :       if(round < 9 && !isWin(table)){
+                                       playRound(table, &round, execute(node->opr.op[0]).intValue, execute(node->opr.op[1]).intValue);
+                                       if (!isWin(table)) {
+                                          printTable(table);
+                                           if (round % 2 == 0) 
+                                               printf("\nO's round\n");
+                                           else 
+                                               printf("\nX's round\n");                                      
+                                            }    
+                                      }
+                                      return data;
+                    case WHILE  :   if(node->opr.op[0]->opr.oper == '<' || node->opr.op[0]->opr.oper == '>' || 
                                          node->opr.op[0]->opr.oper == EQ  || node->opr.op[0]->opr.oper == NE ||
                                          node->opr.op[0]->opr.oper == GE  || node->opr.op[0]->opr.oper == LE ) {
                                           while (execute(node->opr.op[0]).intValue) {
@@ -386,3 +417,58 @@ int main(void)
   return 0; 
 }
 
+bool isWin(int t[3][3]){
+    for (int i = 0; i < 3; i++){
+        if ((t[0][i] == 1 && t[1][i] == 1 && t[2][i] == 1) ||
+            (t[0][i] == 2 && t[1][i] == 2 && t[2][i] == 2) ||
+            (t[i][0] == 1 && t[i][1] == 1 && t[i][2] == 1) ||
+            (t[i][0] == 2 && t[i][1] == 2 && t[i][2] == 2)){
+                return true;
+            }
+    }
+    if ((t[0][0] == 1 && t[1][1] == 1 && t[2][2] == 1) ||
+        (t[0][0] == 2 && t[1][1] == 2 && t[2][2] == 2) ||
+        (t[0][2] == 1 && t[1][1] == 1 && t[2][0] == 1) ||
+        (t[0][2] == 2 && t[1][1] == 2 && t[2][0] == 2)){
+            return true;
+        }
+    return false;
+}
+
+void printTable(int table[3][3]){
+    for (int i = 0; i<3; i++){
+        printf("\n-------\n|");
+
+        for (int j = 0; j<3; j++){
+            if (table[i][j] == 0)
+                printf(" |");
+            if (table[i][j] == 1)
+                printf("O|");
+            if (table[i][j] == 2)
+                printf("X|");
+        }
+    }
+    printf("\n-------\n");
+}
+
+void playRound(int table[3][3], int* round, int x, int y){
+    printf("ROUND = %d\n", (*round));
+    char playerChar;
+    int playerVal;
+    if ((*round) % 2 == 0){
+        playerChar = 'O';
+        playerVal = 1;
+    }
+    else {
+        playerChar = 'X';
+        playerVal = 2;
+    }
+    if (table[x-1][y-1] == 0 && x >= 1 && x <=3 && y >= 1 && y <=3){
+        (*round) ++;
+        table[x-1][y-1] = playerVal;
+        if (isWin(table)){
+            printTable(table);
+            printf("\n%c won!\n", playerChar);
+        }
+    }
+}

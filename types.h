@@ -1,4 +1,4 @@
-
+#include<stdbool.h>
 typedef enum { typeCon, typeConF,typeConS, typeText, typeId, typeOpr} nodeEnum;
 
 /* constants */
@@ -47,6 +47,10 @@ typedef struct {
   char* stringValue;
 }data_;
 
+typedef struct {
+  int x;
+  int y;
+}tic;
 /* prototypes */
 nodeType *opr(int oper, int nops, ...);
 nodeType *id(int i);
@@ -58,3 +62,7 @@ data_ execute(nodeType *node);
 void freeNode(nodeType *p);
 void saveValueInMemory(nodeType * node);
 char *getString(nodeType *node);
+void playTicTacToe();
+void playRound(int table[3][3], int* round, int x, int y);
+void printTable(int table[3][3]);
+bool isWin(int t[3][3]);

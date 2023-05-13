@@ -51,6 +51,13 @@
 "case"          return CASE;
 "endSwitch"    return END_SWITCH;
 "default"      return DEFAULT;
+"tic tac toe"  return START;   
+"put on "[1-3][ ][1-3]            {   
+                                  char*s = yytext;
+                                  yylval.ticValue.x = s[7] - '0';
+                                  yylval.ticValue.y = s[9] - '0';
+                                  return PUT;
+                              } 
 
 "int"           {
                   //printf("lex: %s\n", yytext);
