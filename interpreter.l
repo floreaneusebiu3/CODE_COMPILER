@@ -7,78 +7,89 @@
 
 %%
  
-  /* variables */
-[a-z]           {
-                   yylval.iValue = *yytext - 'a';
-                   return VARIABLE;
-                }
-[\"][a-zA-Z1-9]+[\"] {
-                        char *aux = (char*)malloc(100 * sizeof(char));
-                        strcpy(aux, yytext);
-                        int len = strlen(aux);
-                        memmove(aux, aux + 1, len - 1);
-                        aux[len - 2] = '\0';
-                        yylval.sValue = aux;
-                        return STRING;
-                     }
+[a-z]                             {
+                                  yylval.iValue = *yytext - 'a';
+                                  return VARIABLE;
+                                  }   
 
-[-]*[0-9]+[.][0-9]+ {
-                        yylval.fValue = atof(yytext);
-                        return FLOAT;
-                     }
+[\"][a-zA-Z1-9]+[\"]              {
+                                  char *aux = (char*)malloc(100 * sizeof(char));
+                                  strcpy(aux, yytext);
+                                  int len = strlen(aux);
+                                  memmove(aux, aux + 1, len - 1);
+                                  aux[len - 2] = '\0';
+                                  yylval.sValue = aux;
+                                  return STRING;
+                                  }
 
-  /* integers */                 
-[-]*[0-9]+      {
-                   yylval.iValue = atoi(yytext);
-                   return INTEGER;
-                }
+[-]*[0-9]+[.][0-9]+               {
+                                  yylval.fValue = atof(yytext);
+                                  return FLOAT;
+                                  }
 
-  /* operators */
-[-()<>=+/*;{}.:] return *yytext;
+[-]*[0-9]+                        {
+                                  yylval.iValue = atoi(yytext);
+                                  return INTEGER;
+                                  }
 
-">="            return GE;
-"<="            return LE;
-"=="            return EQ;
-"!="            return NE;
-"while"         return WHILE;
-"if"            return IF;
-"else"          return ELSE;
-"print"         return PRINT;
-"repeat"        return REPEAT;
-"until"         return UNTIL;
-"for"           return FOR;
-"switch"        return SWITCH;
-"case"          return CASE;
-"endSwitch"    return END_SWITCH;
-"default"      return DEFAULT;
-"tic tac toe"  return START;   
+[-()<>=+/*;{}.:]                  return *yytext;
+
+">="                              return GE;
+
+"<="                              return LE;
+
+"=="                              return EQ;
+
+"!="                              return NE;
+
+"while"                           return WHILE;
+
+"if"                              return IF;
+
+"else"                            return ELSE;
+
+"print"                           return PRINT;
+
+"repeat"                          return REPEAT;
+
+"until"                           return UNTIL;
+
+"for"                             return FOR;
+
+"switch"                          return SWITCH;
+
+"case"                            return CASE;
+
+"endSwitch"                       return END_SWITCH;
+
+"default"                         return DEFAULT;
+
+"tic tac toe"                     return START;   
+
 "put on "[1-3][ ][1-3]            {   
                                   char*s = yytext;
                                   yylval.ticValue.x = s[7] - '0';
                                   yylval.ticValue.y = s[9] - '0';
                                   return PUT;
-                              } 
+                                  }  
 
-"int"           {
-                  //printf("lex: %s\n", yytext);
-                  yylval.typee = "int";
-                  return TYPEE;
-                }
+"int"                             {
+                                  yylval.typee = "int";
+                                  return TYPEE;
+                                  }
 
-"string"        {
-                  //printf("lex: %s\n", yytext);
-                  yylval.typee = "string";
-                  return TYPEE;
-                }
+"string"                          {
+                                  yylval.typee = "string";
+                                  return TYPEE;
+                                  }
 
-"float"         {
-                  //printf("lex: %s\n", yytext);
-                  yylval.typee = "float";
-                  return TYPEE;
-                }
+"float"                           {
+                                  yylval.typee = "float";
+                                  return TYPEE;
+                                  }
 
-[ \t\n]+        ;      
+[ \t\n]+                          ;      
 
-.               yyerror("Unknown character.\n");
+.                                 yyerror("Unknown character.\n");
 
 

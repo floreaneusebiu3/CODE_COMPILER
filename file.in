@@ -1,3 +1,4 @@
-tic tac toe
-
+int x;
+x = 5;
+print(x);
 .
