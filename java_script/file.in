@@ -1,0 +1,4 @@
+float a;
+a = 43.32;
+print(a);
+.

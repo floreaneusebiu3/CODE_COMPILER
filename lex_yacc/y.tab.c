@@ -78,7 +78,7 @@
 #include<stdbool.h>
 #include "types.h"
 
-memory_type memory[26]; /* symbol table */
+memory_type memory[26]; 
 void yyerror(const char* s);
 extern char* yytext;
 int table[3][3];
@@ -192,11 +192,11 @@ union YYSTYPE
 #line 18 "interpreter.y"
 
   tic ticValue;
-  int iValue;      /* integer value */
+  int iValue;      
   float fValue;
   char* sValue;
   char *typee;
-  nodeType *nPtr;  /* node pointer */
+  nodeType *nPtr;  
 
 #line 202 "y.tab.c"
 
@@ -655,10 +655,10 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    47,    47,    50,    54,    57,    58,    59,    60,    63,
-      64,    65,    66,    67,    68,    69,    71,    72,    73,    76,
-      77,    80,    83,    85,    86,    87,    88,    89,    90,    91,
-      92,    93,    94,    95,    96,    97,    98,    99,   100,   101
+       0,    47,    47,    50,    54,    57,    58,    59,    60,    61,
+      62,    63,    64,    65,    66,    67,    69,    70,    71,    74,
+      75,    78,    81,    83,    84,    85,    86,    87,    88,    89,
+      90,    91,    92,    93,    94,    95,    96,    97,    98,    99
 };
 #endif
 
@@ -1345,200 +1345,198 @@ yyreduce:
 
   case 7: /* statement: START  */
 #line 59 "interpreter.y"
-                                                                 { (yyval.nPtr) = opr(START, 0);}
+                                                                 { (yyval.nPtr) = opr(START, 0); }
 #line 1350 "y.tab.c"
     break;
 
   case 8: /* statement: PUT  */
 #line 60 "interpreter.y"
-                                                                 {   
-                                                                    (yyval.nPtr) = opr(PUT, 2, con(((yyvsp[0].ticValue)).x), con(((yyvsp[0].ticValue)).y));
-                                                                 }
-#line 1358 "y.tab.c"
+                                                                 { (yyval.nPtr) = opr(PUT, 2, con(((yyvsp[0].ticValue)).x), con(((yyvsp[0].ticValue)).y)); }
+#line 1356 "y.tab.c"
     break;
 
   case 9: /* statement: PRINT expr ';'  */
-#line 63 "interpreter.y"
+#line 61 "interpreter.y"
                                                                  { (yyval.nPtr) = opr(PRINT, 1, (yyvsp[-1].nPtr)); }
-#line 1364 "y.tab.c"
+#line 1362 "y.tab.c"
     break;
 
   case 10: /* statement: VARIABLE '=' expr ';'  */
-#line 64 "interpreter.y"
+#line 62 "interpreter.y"
                                                                  { (yyval.nPtr) = opr('=', 2, id((yyvsp[-3].iValue)), (yyvsp[-1].nPtr)); }
-#line 1370 "y.tab.c"
+#line 1368 "y.tab.c"
     break;
 
   case 11: /* statement: TYPEE VARIABLE ';'  */
-#line 65 "interpreter.y"
+#line 63 "interpreter.y"
                                                                  { (yyval.nPtr) = opr(TYPEE, 2, text((yyvsp[-2].typee)), id((yyvsp[-1].iValue))); }
-#line 1376 "y.tab.c"
+#line 1374 "y.tab.c"
     break;
 
   case 12: /* statement: WHILE '(' expr ')' statement  */
-#line 66 "interpreter.y"
+#line 64 "interpreter.y"
                                                                  { (yyval.nPtr) = opr(WHILE, 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
-#line 1382 "y.tab.c"
+#line 1380 "y.tab.c"
     break;
 
   case 13: /* statement: REPEAT statement UNTIL '(' expr ')' ';'  */
-#line 67 "interpreter.y"
+#line 65 "interpreter.y"
                                                                  { (yyval.nPtr) = opr(REPEAT, 2, (yyvsp[-5].nPtr), (yyvsp[-2].nPtr)); }
-#line 1388 "y.tab.c"
+#line 1386 "y.tab.c"
     break;
 
   case 14: /* statement: FOR statement expr ';' statement '{' stmt_list '}'  */
-#line 68 "interpreter.y"
+#line 66 "interpreter.y"
                                                                  { (yyval.nPtr) = opr(FOR, 4, (yyvsp[-6].nPtr), (yyvsp[-5].nPtr), (yyvsp[-3].nPtr), (yyvsp[-1].nPtr)); }
-#line 1394 "y.tab.c"
+#line 1392 "y.tab.c"
     break;
 
   case 15: /* statement: SWITCH '(' VARIABLE ')' case_stmt case_stmt default_stmt END_SWITCH  */
-#line 70 "interpreter.y"
+#line 68 "interpreter.y"
                                                                  { (yyval.nPtr) = opr(SWITCH, 4, id((yyvsp[-5].iValue)), (yyvsp[-3].nPtr), (yyvsp[-2].nPtr), (yyvsp[-1].nPtr)); }
-#line 1400 "y.tab.c"
+#line 1398 "y.tab.c"
     break;
 
   case 16: /* statement: IF '(' expr ')' statement  */
-#line 71 "interpreter.y"
+#line 69 "interpreter.y"
                                                                  { (yyval.nPtr) = opr(IF, 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
-#line 1406 "y.tab.c"
+#line 1404 "y.tab.c"
     break;
 
   case 17: /* statement: IF '(' expr ')' statement ELSE statement  */
-#line 72 "interpreter.y"
+#line 70 "interpreter.y"
                                                                  { (yyval.nPtr) = opr(IF, 3, (yyvsp[-4].nPtr), (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
-#line 1412 "y.tab.c"
+#line 1410 "y.tab.c"
     break;
 
   case 18: /* statement: '{' stmt_list '}'  */
-#line 73 "interpreter.y"
+#line 71 "interpreter.y"
                                                                  { (yyval.nPtr) = (yyvsp[-1].nPtr); }
-#line 1418 "y.tab.c"
+#line 1416 "y.tab.c"
     break;
 
   case 20: /* stmt_list: stmt_list statement  */
-#line 77 "interpreter.y"
+#line 75 "interpreter.y"
                                                                  { (yyval.nPtr) = opr(';', 2, (yyvsp[-1].nPtr), (yyvsp[0].nPtr)); }
-#line 1424 "y.tab.c"
+#line 1422 "y.tab.c"
     break;
 
   case 21: /* case_stmt: CASE INTEGER ':' stmt_list  */
-#line 80 "interpreter.y"
+#line 78 "interpreter.y"
                                                                  { (yyval.nPtr) = opr(CASE, 2, con((yyvsp[-2].iValue)), (yyvsp[0].nPtr)); }
-#line 1430 "y.tab.c"
+#line 1428 "y.tab.c"
     break;
 
   case 22: /* default_stmt: DEFAULT ':' stmt_list  */
-#line 83 "interpreter.y"
-                                                                   { (yyval.nPtr) = opr(DEFAULT, 1, (yyvsp[0].nPtr)); }
-#line 1436 "y.tab.c"
+#line 81 "interpreter.y"
+                                                                 { (yyval.nPtr) = opr(DEFAULT, 1, (yyvsp[0].nPtr)); }
+#line 1434 "y.tab.c"
     break;
 
   case 23: /* expr: INTEGER  */
-#line 85 "interpreter.y"
+#line 83 "interpreter.y"
                                                                  { (yyval.nPtr) = con((yyvsp[0].iValue)); }
-#line 1442 "y.tab.c"
+#line 1440 "y.tab.c"
     break;
 
   case 24: /* expr: FLOAT  */
-#line 86 "interpreter.y"
+#line 84 "interpreter.y"
                                                                  { (yyval.nPtr) = conF((yyvsp[0].fValue)); }
-#line 1448 "y.tab.c"
+#line 1446 "y.tab.c"
     break;
 
   case 25: /* expr: STRING  */
-#line 87 "interpreter.y"
+#line 85 "interpreter.y"
                                                                  { (yyval.nPtr) = conS((yyvsp[0].sValue)); }
-#line 1454 "y.tab.c"
+#line 1452 "y.tab.c"
     break;
 
   case 26: /* expr: VARIABLE  */
-#line 88 "interpreter.y"
+#line 86 "interpreter.y"
                                                                  { (yyval.nPtr) = id((yyvsp[0].iValue)); }
-#line 1460 "y.tab.c"
+#line 1458 "y.tab.c"
     break;
 
   case 27: /* expr: TYPEE  */
-#line 89 "interpreter.y"
+#line 87 "interpreter.y"
                                                                  { (yyval.nPtr) = text((yyvsp[0].typee));}
-#line 1466 "y.tab.c"
+#line 1464 "y.tab.c"
     break;
 
   case 28: /* expr: '-' expr  */
-#line 90 "interpreter.y"
+#line 88 "interpreter.y"
                                                                  { (yyval.nPtr) = opr(UMINUS, 1, (yyvsp[0].nPtr)); }
-#line 1472 "y.tab.c"
+#line 1470 "y.tab.c"
     break;
 
   case 29: /* expr: expr '+' expr  */
-#line 91 "interpreter.y"
+#line 89 "interpreter.y"
                                                                  { (yyval.nPtr) = opr('+', 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
-#line 1478 "y.tab.c"
+#line 1476 "y.tab.c"
     break;
 
   case 30: /* expr: expr '-' expr  */
-#line 92 "interpreter.y"
+#line 90 "interpreter.y"
                                                                  { (yyval.nPtr) = opr('-', 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
-#line 1484 "y.tab.c"
+#line 1482 "y.tab.c"
     break;
 
   case 31: /* expr: expr '*' expr  */
-#line 93 "interpreter.y"
+#line 91 "interpreter.y"
                                                                  { (yyval.nPtr) = opr('*', 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
-#line 1490 "y.tab.c"
+#line 1488 "y.tab.c"
     break;
 
   case 32: /* expr: expr '/' expr  */
-#line 94 "interpreter.y"
+#line 92 "interpreter.y"
                                                                  { (yyval.nPtr) = opr('/', 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
-#line 1496 "y.tab.c"
+#line 1494 "y.tab.c"
     break;
 
   case 33: /* expr: expr '<' expr  */
-#line 95 "interpreter.y"
+#line 93 "interpreter.y"
                                                                  { (yyval.nPtr) = opr('<', 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
-#line 1502 "y.tab.c"
+#line 1500 "y.tab.c"
     break;
 
   case 34: /* expr: expr '>' expr  */
-#line 96 "interpreter.y"
+#line 94 "interpreter.y"
                                                                  { (yyval.nPtr) = opr('>', 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
-#line 1508 "y.tab.c"
+#line 1506 "y.tab.c"
     break;
 
   case 35: /* expr: expr GE expr  */
-#line 97 "interpreter.y"
+#line 95 "interpreter.y"
                                                                  { (yyval.nPtr) = opr(GE, 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
-#line 1514 "y.tab.c"
+#line 1512 "y.tab.c"
     break;
 
   case 36: /* expr: expr LE expr  */
-#line 98 "interpreter.y"
+#line 96 "interpreter.y"
                                                                  { (yyval.nPtr) = opr(LE, 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
-#line 1520 "y.tab.c"
+#line 1518 "y.tab.c"
     break;
 
   case 37: /* expr: expr NE expr  */
-#line 99 "interpreter.y"
+#line 97 "interpreter.y"
                                                                  { (yyval.nPtr) = opr(NE, 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
-#line 1526 "y.tab.c"
+#line 1524 "y.tab.c"
     break;
 
   case 38: /* expr: expr EQ expr  */
-#line 100 "interpreter.y"
+#line 98 "interpreter.y"
                                                                  { (yyval.nPtr) = opr(EQ, 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
-#line 1532 "y.tab.c"
+#line 1530 "y.tab.c"
     break;
 
   case 39: /* expr: '(' expr ')'  */
-#line 101 "interpreter.y"
+#line 99 "interpreter.y"
                                                                  { (yyval.nPtr) = (yyvsp[-1].nPtr); }
-#line 1538 "y.tab.c"
+#line 1536 "y.tab.c"
     break;
 
 
-#line 1542 "y.tab.c"
+#line 1540 "y.tab.c"
 
       default: break;
     }
@@ -1731,7 +1729,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 103 "interpreter.y"
+#line 101 "interpreter.y"
 
 data_ execute(nodeType *node) {
   data_ data;
@@ -1740,19 +1738,19 @@ data_ execute(nodeType *node) {
   data.intValue = INT_MAX;
   data.floatValue = INT_MAX;
   if (!node) 
-    return data; 
+      return data; 
   switch(node->type) {
-    case typeCon:  data.intValue = node->con.value; return data;
-    case typeConF: data.floatValue = node->con.valueF; return data;
-    case typeConS : data.stringValue = node->con.valueS; return data;
-    case typeId :  
+      case typeCon: data.intValue = node->con.value; return data;
+      case typeConF: data.floatValue = node->con.valueF; return data;
+      case typeConS: data.stringValue = node->con.valueS; return data;
+      case typeId :  
                     if(memory[node->id.i].type == NULL) {
-                       yyerror("error:undeclared variable");
-                       return data;
+                         yyerror("error:undeclared variable");
+                         return data;
                     }
                     if (strcmp(memory[node->id.i].type, "int") == 0) {
-                        data.intValue = atoi(memory[node->id.i].value);
-                        return data;
+                         data.intValue = atoi(memory[node->id.i].value);
+                         return data;
                     }
                     if (strcmp(memory[node->id.i].type, "float") == 0) {
                         data.floatValue = atof(memory[node->id.i].value);
@@ -1763,11 +1761,11 @@ data_ execute(nodeType *node) {
                         data.stringValue = memory[node->id.i].value;
                         return data;
                     }
-                      yyerror("error:incorrect assigment");
-                      return data;
+                    yyerror("error:incorrect assigment");
+                    return data;
                     
-    case typeOpr : switch(node->opr.oper) 
-                  { case START  :    for (int i = 0; i < 3; i++) 
+      case typeOpr : switch(node->opr.oper) 
+                    { case START  :  for (int i = 0; i < 3; i++) 
                                      for (int j = 0; j < 3; j++) 
                                         table[i][j] = 0;
                                      round = 0;
@@ -1776,35 +1774,37 @@ data_ execute(nodeType *node) {
                                         printf("\nO's round\n");
                                      else 
                                         printf("\nX's round\n");
-
                                      return data;
-                    case PUT :       if(round < 9 && !isWin(table)){
-                                       playRound(table, &round, execute(node->opr.op[0]).intValue, execute(node->opr.op[1]).intValue);
-                                       if (!isWin(table)) {
-                                          printTable(table);
-                                           if (round % 2 == 0) 
-                                               printf("\nO's round\n");
-                                           else 
-                                               printf("\nX's round\n");                                      
-                                            }    
+
+                    case PUT :       if(round < 9 && !isWin(table)) {
+                                         playRound(table, &round, execute(node->opr.op[0]).intValue, execute(node->opr.op[1]).intValue);
+                                         if (!isWin(table)) {
+                                             printTable(table);
+                                             if (round % 2 == 0) 
+                                                 printf("\nO's round\n");
+                                             else 
+                                                 printf("\nX's round\n");                                      
+                                         }    
                                       }
                                       return data;
+
                     case WHILE  :   if(node->opr.op[0]->opr.oper == '<' || node->opr.op[0]->opr.oper == '>' || 
                                          node->opr.op[0]->opr.oper == EQ  || node->opr.op[0]->opr.oper == NE ||
                                          node->opr.op[0]->opr.oper == GE  || node->opr.op[0]->opr.oper == LE ) {
-                                          while (execute(node->opr.op[0]).intValue) {
-                                            execute(node->opr.op[1]);
+                                         while (execute(node->opr.op[0]).intValue) {
+                                             execute(node->opr.op[1]);
                                           }
-                                         } 
-                                         return data;
-                      case REPEAT :     if(node->opr.op[1]->opr.oper == '<' || node->opr.op[1]->opr.oper == '>' || 
+                                     } 
+                                    return data;
+
+                    case REPEAT :   if(node->opr.op[1]->opr.oper == '<' || node->opr.op[1]->opr.oper == '>' || 
                                          node->opr.op[1]->opr.oper == EQ  || node->opr.op[1]->opr.oper == NE ||
                                          node->opr.op[1]->opr.oper == GE  || node->opr.op[1]->opr.oper == LE ) {
-                                          do {
+                                         do {
                                             execute(node->opr.op[0]);
-                                          } while (execute(node->opr.op[1]).intValue);
-                                         } 
-                                         return data;
+                                         } while (execute(node->opr.op[1]).intValue);
+                                    } 
+                                    return data;
                                           
                       case IF    :       if(node->opr.op[0]->opr.oper == '<' || node->opr.op[0]->opr.oper == '>' || 
                                          node->opr.op[0]->opr.oper == EQ  || node->opr.op[0]->opr.oper == NE ||
@@ -1815,6 +1815,7 @@ data_ execute(nodeType *node) {
                                                 execute(node->opr.op[2]);
                                          } 
                                          return data; 
+
                       case FOR  :        if(node->opr.op[1]->opr.oper == '<' || node->opr.op[1]->opr.oper == '>' || 
                                          node->opr.op[1]->opr.oper == EQ  || node->opr.op[1]->opr.oper == NE ||
                                          node->opr.op[1]->opr.oper == GE  || node->opr.op[1]->opr.oper == LE ) {
@@ -1823,10 +1824,9 @@ data_ execute(nodeType *node) {
                                             execute(node->opr.op[3]);
                                             execute(node->opr.op[2]);
                                           }
-                                         } 
-                                         return data; 
-                      case SWITCH :    
-                                      if(strcmp(memory[node->opr.op[0]->id.i].type, "int") == 0) {
+                                          } 
+                                          return data; 
+                      case SWITCH :    if(strcmp(memory[node->opr.op[0]->id.i].type, "int") == 0) {
                                            if (execute(node->opr.op[0]).intValue == execute(node->opr.op[1]->opr.op[0]).intValue) {
                                                 execute(node->opr.op[1]->opr.op[1]);
                                                 return data;
@@ -1835,13 +1835,16 @@ data_ execute(nodeType *node) {
                                                 execute(node->opr.op[2]->opr.op[1]);
                                                 return data;
                                            }
-                                           execute(node->opr.op[3]->opr.op[0]);
-                                        }  
+                                       execute(node->opr.op[3]->opr.op[0]);
+                                       }  
                                        return data;
+
                       case '='    :   saveValueInMemory(node); return data;
+
                       case TYPEE  :   memory[node->opr.op[1]->id.i].type = (char*)malloc(10 * sizeof(char));
                                       memory[node->opr.op[1]->id.i].type = getString(node->opr.op[0]);
                                       return data;
+
                       case PRINT :    aux = execute(node->opr.op[0]); 
                                       if (aux.intValue != INT_MAX)  {
                                           printf("%d\n", execute(node->opr.op[0]).intValue); 
@@ -1855,33 +1858,39 @@ data_ execute(nodeType *node) {
                                           printf("%s\n", execute(node->opr.op[0]).stringValue); 
                                           return data;
                                       }
-                                      return data;     
+                                      return data;
+
                       case ';':       execute(node->opr.op[0]); 
 		                                      return execute(node->opr.op[1]); 
-                      case '+'   :     aux = execute(node->opr.op[0]);
+
+                      case '+'   :    aux = execute(node->opr.op[0]);
                                       if (aux.intValue != INT_MAX) 
                                         data.intValue = execute(node->opr.op[0]).intValue + execute(node->opr.op[1]).intValue;
                                       if (aux.floatValue != INT_MAX) 
                                         data.floatValue = execute(node->opr.op[0]).floatValue + execute(node->opr.op[1]).floatValue;
                                       return data;
+
                       case '-'   :    aux = execute(node->opr.op[0]);
                                       if (aux.intValue != INT_MAX) 
                                         data.intValue = execute(node->opr.op[0]).intValue - execute(node->opr.op[1]).intValue;
                                       if (aux.floatValue != INT_MAX) 
                                         data.floatValue = execute(node->opr.op[0]).floatValue - execute(node->opr.op[1]).floatValue;
                                       return data;
+
                       case '*'   :    aux = execute(node->opr.op[0]);
                                       if (aux.intValue != INT_MAX) 
                                         data.intValue = execute(node->opr.op[0]).intValue * execute(node->opr.op[1]).intValue;
                                       if (aux.floatValue != INT_MAX) 
                                         data.floatValue = execute(node->opr.op[0]).floatValue * execute(node->opr.op[1]).floatValue;
                                       return data;
+
                       case '/'   :    aux = execute(node->opr.op[0]);
                                       if (aux.intValue != INT_MAX) 
                                         data.intValue = execute(node->opr.op[0]).intValue / execute(node->opr.op[1]).intValue;
                                       if (aux.floatValue != INT_MAX) 
                                         data.floatValue = execute(node->opr.op[0]).floatValue / execute(node->opr.op[1]).floatValue;
                                       return data;
+
                       case '<'   :    aux = execute(node->opr.op[0]);
                                       aux2 = execute(node->opr.op[1]);
                                       if (aux.intValue != INT_MAX && aux2.intValue != INT_MAX) 
@@ -1889,6 +1898,7 @@ data_ execute(nodeType *node) {
                                       if (aux.floatValue != INT_MAX  && aux2.floatValue != INT_MAX) 
                                         data.intValue = aux.floatValue < aux2.floatValue;
                                       return data;
+
 		                  case '>':       aux = execute(node->opr.op[0]);
                                       aux2 = execute(node->opr.op[1]);
                                       if (aux.intValue != INT_MAX && aux2.intValue != INT_MAX) 
@@ -1896,6 +1906,7 @@ data_ execute(nodeType *node) {
                                       if (aux.floatValue != INT_MAX  && aux2.floatValue != INT_MAX) 
                                         data.intValue = aux.floatValue > aux2.floatValue;
                                       return data;
+
 		                  case GE:        aux = execute(node->opr.op[0]);
                                       aux2 = execute(node->opr.op[1]);
                                       if (aux.intValue != INT_MAX && aux2.intValue != INT_MAX) 
@@ -1903,6 +1914,7 @@ data_ execute(nodeType *node) {
                                       if (aux.floatValue != INT_MAX  && aux2.floatValue != INT_MAX) 
                                         data.intValue = aux.floatValue >= aux2.floatValue;
                                       return data; 
+
 		                  case LE:        aux = execute(node->opr.op[0]);
                                       aux2 = execute(node->opr.op[1]);
                                       if (aux.intValue != INT_MAX && aux2.intValue != INT_MAX) 
@@ -1910,6 +1922,7 @@ data_ execute(nodeType *node) {
                                       if (aux.floatValue != INT_MAX  && aux2.floatValue != INT_MAX) 
                                         data.intValue = aux.floatValue <= aux2.floatValue;
                                       return data; 
+
 		                  case NE:        aux = execute(node->opr.op[0]);
                                       aux2 = execute(node->opr.op[1]);
                                       if (aux.intValue != INT_MAX && aux2.intValue != INT_MAX) 
@@ -1917,6 +1930,7 @@ data_ execute(nodeType *node) {
                                       if (aux.floatValue != INT_MAX  && aux2.floatValue != INT_MAX) 
                                         data.intValue = aux.floatValue != aux2.floatValue;
                                       return data;
+                                      
 		                  case EQ:        aux = execute(node->opr.op[0]);
                                       aux2 = execute(node->opr.op[1]);
                                       if (aux.intValue != INT_MAX && aux2.intValue != INT_MAX) 

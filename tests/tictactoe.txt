@@ -1,0 +1,7 @@
+tic tac toe
+put on 1 1 
+put on 1 2 
+put on 2 1 
+put on 2 2
+put on 3 1
+.

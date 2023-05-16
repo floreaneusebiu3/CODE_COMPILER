@@ -118,11 +118,11 @@ union YYSTYPE
 #line 18 "interpreter.y"
 
   tic ticValue;
-  int iValue;      /* integer value */
+  int iValue;      
   float fValue;
   char* sValue;
   char *typee;
-  nodeType *nPtr;  /* node pointer */
+  nodeType *nPtr;  
 
 #line 128 "y.tab.h"
 

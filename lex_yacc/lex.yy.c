@@ -740,8 +740,7 @@ YY_DECL
 
 #line 10 "interpreter.l"
  
-  /* variables */
-#line 745 "lex.yy.c"
+#line 744 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -800,56 +799,54 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 12 "interpreter.l"
+#line 11 "interpreter.l"
 {
-                   yylval.iValue = *yytext - 'a';
-                   return VARIABLE;
-                }
+                                  yylval.iValue = *yytext - 'a';
+                                  return VARIABLE;
+                                  }   
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
 #line 16 "interpreter.l"
 {
-                        char *aux = (char*)malloc(100 * sizeof(char));
-                        strcpy(aux, yytext);
-                        int len = strlen(aux);
-                        memmove(aux, aux + 1, len - 1);
-                        aux[len - 2] = '\0';
-                        yylval.sValue = aux;
-                        return STRING;
-                     }
+                                  char *aux = (char*)malloc(100 * sizeof(char));
+                                  strcpy(aux, yytext);
+                                  int len = strlen(aux);
+                                  memmove(aux, aux + 1, len - 1);
+                                  aux[len - 2] = '\0';
+                                  yylval.sValue = aux;
+                                  return STRING;
+                                  }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
 #line 26 "interpreter.l"
 {
-                        yylval.fValue = atof(yytext);
-                        return FLOAT;
-                     }
+                                  yylval.fValue = atof(yytext);
+                                  return FLOAT;
+                                  }
 	YY_BREAK
-/* integers */                 
 case 4:
 YY_RULE_SETUP
-#line 32 "interpreter.l"
+#line 31 "interpreter.l"
 {
-                   yylval.iValue = atoi(yytext);
-                   return INTEGER;
-                }
+                                  yylval.iValue = atoi(yytext);
+                                  return INTEGER;
+                                  }
 	YY_BREAK
-/* operators */
 case 5:
 YY_RULE_SETUP
-#line 38 "interpreter.l"
+#line 36 "interpreter.l"
 return *yytext;
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 40 "interpreter.l"
+#line 38 "interpreter.l"
 return GE;
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 41 "interpreter.l"
+#line 40 "interpreter.l"
 return LE;
 	YY_BREAK
 case 8:
@@ -859,123 +856,120 @@ return EQ;
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 43 "interpreter.l"
+#line 44 "interpreter.l"
 return NE;
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 44 "interpreter.l"
+#line 46 "interpreter.l"
 return WHILE;
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 45 "interpreter.l"
+#line 48 "interpreter.l"
 return IF;
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 46 "interpreter.l"
+#line 50 "interpreter.l"
 return ELSE;
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 47 "interpreter.l"
+#line 52 "interpreter.l"
 return PRINT;
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 48 "interpreter.l"
+#line 54 "interpreter.l"
 return REPEAT;
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 49 "interpreter.l"
+#line 56 "interpreter.l"
 return UNTIL;
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 50 "interpreter.l"
+#line 58 "interpreter.l"
 return FOR;
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 51 "interpreter.l"
+#line 60 "interpreter.l"
 return SWITCH;
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 52 "interpreter.l"
+#line 62 "interpreter.l"
 return CASE;
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 53 "interpreter.l"
+#line 64 "interpreter.l"
 return END_SWITCH;
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 54 "interpreter.l"
+#line 66 "interpreter.l"
 return DEFAULT;
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 55 "interpreter.l"
+#line 68 "interpreter.l"
 return START;   
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 56 "interpreter.l"
+#line 70 "interpreter.l"
 {   
                                   char*s = yytext;
                                   yylval.ticValue.x = s[7] - '0';
                                   yylval.ticValue.y = s[9] - '0';
                                   return PUT;
-                              } 
+                                  }  
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 63 "interpreter.l"
+#line 77 "interpreter.l"
 {
-                  //printf("lex: %s\n", yytext);
-                  yylval.typee = "int";
-                  return TYPEE;
-                }
+                                  yylval.typee = "int";
+                                  return TYPEE;
+                                  }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 69 "interpreter.l"
+#line 82 "interpreter.l"
 {
-                  //printf("lex: %s\n", yytext);
-                  yylval.typee = "string";
-                  return TYPEE;
-                }
+                                  yylval.typee = "string";
+                                  return TYPEE;
+                                  }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 75 "interpreter.l"
+#line 87 "interpreter.l"
 {
-                  //printf("lex: %s\n", yytext);
-                  yylval.typee = "float";
-                  return TYPEE;
-                }
+                                  yylval.typee = "float";
+                                  return TYPEE;
+                                  }
 	YY_BREAK
 case 26:
 /* rule 26 can match eol */
 YY_RULE_SETUP
-#line 81 "interpreter.l"
+#line 92 "interpreter.l"
 ;      
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 83 "interpreter.l"
+#line 94 "interpreter.l"
 yyerror("Unknown character.\n");
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 86 "interpreter.l"
+#line 97 "interpreter.l"
 ECHO;
 	YY_BREAK
-#line 979 "lex.yy.c"
+#line 973 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1980,4 +1974,4 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 86 "interpreter.l"
+#line 97 "interpreter.l"

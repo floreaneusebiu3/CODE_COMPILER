@@ -16,14 +16,14 @@ ws.on('message', (data) => {
     }
 var exec = require('child_process').exec;
 
-exec('make', function (error, stdout, stderr) {
+exec('make -C ../lex_yacc', function (error, stdout, stderr) {
     if (error) {
         console.error('Error running make:', error);
         return;
     }
     console.log('Make completed successfully.');
     
-    exec('./program.out < file.in', function (error, stdout, stderr) {
+    exec('../lex_yacc/program.out < file.in', function (error, stdout, stderr) {
         if (error) {
             console.error('Error running a.out:', error);
             return;
